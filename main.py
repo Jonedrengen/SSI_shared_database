@@ -9,3 +9,4 @@ def central():
 
 if __name__ == "__main__":
     uvicorn.run(test_app, port=8888, host="0.0.0.0")
+

@@ -4,15 +4,9 @@ from dash import html, dcc, dash_table
 from dash.dependencies import Input, Output
 import pandas as pd
 
-# Sample data to display, mimicking data fetched from an API
-data = {
-    "ID": [1, 2, 3, 4, 5],
-    "Name": ["Alice", "Bob", "Charlie", "Dana", "Elliot"],
-    "Age": [28, 34, 29, 32, 35],
-    "City": ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"]
-}
+data = pd.read_csv("Persons_data.csv")
 
-# Convert the dictionary to a DataFrame
+# Convert to a DataFrame
 df = pd.DataFrame(data)
 
 # Initialize the Dash app

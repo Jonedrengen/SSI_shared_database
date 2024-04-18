@@ -11,4 +11,5 @@ deactivate: conda deactivate
 
 
 
-#installing dependencies/requirements
+# installing dependencies/requirements
+pip install -r requirements.txt
