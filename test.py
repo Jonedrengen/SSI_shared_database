@@ -4,7 +4,7 @@ from dash import html, dcc, dash_table
 from dash.dependencies import Input, Output
 import pandas as pd
 
-data = pd.read_csv("Persons_data.csv")
+data = pd.read_csv("Patient_test_data.csv")
 
 # Convert to a DataFrame
 df = pd.DataFrame(data)
@@ -29,6 +29,7 @@ app.layout = html.Div([
     Output("data-table", "data"),
     [Input("load-data", "n_clicks"), Input("clear-table", "n_clicks")]
 )
+
 def update_table(n_load_clicks, n_clear_clicks):
     ctx = dash.callback_context
 
@@ -43,6 +44,15 @@ def update_table(n_load_clicks, n_clear_clicks):
 
     # If no button has been clicked, return the current data
     return dash.no_update
+
+# defining callback to disable the load data button after data is loaded
+@app.callback(
+    Output("load-data", "disabled"),
+    [Input("load-data", "n_clicks"), Input("clear-table", "n_clicks")]
+)
+
+def disable_button(n_load_clicks, n_clear_clicks):
+    return n_load_clicks > n_clear_clicks
 
 
 # Run the app
