@@ -9,7 +9,8 @@ create: conda create -n pilotenv
 activate: conda activate pilotenv
 deactivate: conda deactivate
 
-
-
 # installing dependencies/requirements
 pip install -r requirements.txt
+
+# running main API (DB to Interface)
+uvicorn API_DB_to_Interface:app (remember to check port)

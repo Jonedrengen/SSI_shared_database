@@ -2,3 +2,6 @@ pyodbc
 fastapi
 uvicorn
 sqlalchemy
+dash
+dash_ag_grid
+requests

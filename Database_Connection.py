@@ -13,9 +13,7 @@ def get_db_connection_string():
 
 #connect to the db
 def connect_to_database():
-
     conn_str = get_db_connection_string()
-    # Connect to the database
     try:
         conn = pyodbc.connect(conn_str)
     except pyodbc.Error as e:

@@ -2,20 +2,29 @@
 import dash
 from dash import html, dcc, dash_table, Dash
 from dash.dependencies import Input, Output
-
 import pandas as pd
+import requests
+from filteringSystemColumns import columnDefs
 
-data = pd.read_csv("Patient_test_data.csv")
+response = requests.get("http://0.0.0.0:8888/Patient")
+print(type(response))
+if response.status_code == 200:
+    data_raw = pd.json_normalize(response.json())
+    data_opened = pd.json_normalize(data_raw['patients'].explode())
+    print(type(data_opened))
+else:
+    print(f"Request failed with status code {response.status_code}")
 
 # Convert to a DataFrame
-df = pd.DataFrame(data)
+df = pd.DataFrame(data_opened)
 print(type(df))
 print(df[0:4])
 df_copy = df.copy()
 
 
 # Initialize the Dash app
-app = dash.Dash(__name__)
+app = Dash(__name__)
+
 
 # Define the layout of the app
 app.layout = html.Div([
@@ -26,6 +35,7 @@ app.layout = html.Div([
         id="data-table",
         columns=[{"name": i, "id": i} for i in df_copy.columns],
         data=[],  # Initially, the table data is empty
+        filter_action="native"
     ),
 ])
 
