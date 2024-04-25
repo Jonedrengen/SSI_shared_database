@@ -4,19 +4,19 @@ import csv
 # get db connection string
 def get_db_connection_string():
     # Set up the connection string
-        server = 'localhost'
-        database = 'SharedDatabase'
-        username = 'sa'
-        password = 'BlueBox21'
-        driver = '{ODBC Driver 17 for SQL Server}'
-        conn_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
-        return conn_str
+    server = 'localhost'
+    database = 'SharedDatabase'
+    username = 'sa'
+    password = 'BlueBox21'
+    conn_str = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=ODBC+Driver+17+for+SQL+Server'
+    return conn_str
 
 #connect to the db
 def connect_to_database():
     conn_str = get_db_connection_string()
     try:
         conn = pyodbc.connect(conn_str)
+
     except pyodbc.Error as e:
         conn = None
     print(conn)

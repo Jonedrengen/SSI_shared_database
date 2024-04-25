@@ -1,6 +1,9 @@
 import pyodbc
 import csv
 
+# REPLACE DB CONNECTION STRING IN DATABASE_CONNECTION. IF YOU WANT TO INSERT CSV FILES INTO THE DATABASE
+# THE ONE IN DATABASE_CONNECTION WORKS FOR APIS
+
 def connect_to_db():
     # Set up the connection string
     server = 'localhost'
