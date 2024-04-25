@@ -8,7 +8,7 @@ from filteringSystemColumns import columnDefs
 
 response = requests.get("http://0.0.0.0:8888/Patient")
 print(type(response))
-if response.status_code == 200:
+if response.status_code == 200: #if resonse is "ok"
     data_raw = pd.json_normalize(response.json())
     data_opened = pd.json_normalize(data_raw['patients'].explode())
     print(type(data_opened))
@@ -29,6 +29,7 @@ app = Dash(__name__)
 # Define the layout of the app
 app.layout = html.Div([
     html.H1("DASH test app"),
+    html.P("press to load data"),
     html.Button("Load Data", id="load-data", n_clicks=0),
     html.Button("Reset", id="reset", n_clicks=0),  # Add the reset button
     dash_table.DataTable(

@@ -12,8 +12,6 @@ conn_str = get_db_connection_string()
 engine = create_engine(conn_str)
 
 
-
-
 # get full patient table
 @app.get("/Patient")
 def read_patients():
