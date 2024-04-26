@@ -55,4 +55,4 @@ def insert_csv_to_db(csv_file_path, table_name):
         for row in reader:
             execute_query(query, row)
 
-insert_csv_to_db('Patient_test_data.csv', 'SharedDatabase.dbo.Patient')
+#insert_csv_to_db('Patient_test_data.csv', 'SharedDatabase.dbo.Patient')
