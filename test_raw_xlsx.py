@@ -3,23 +3,14 @@ import dash
 from dash import html, dcc, dash_table, Dash
 from dash.dependencies import Input, Output
 import pandas as pd
-import requests
 from filteringSystemColumns import columnDefs
 
-response_Patient_table = requests.get("http://0.0.0.0:8888/Patient")
-print(type(response_Patient_table))
-if response_Patient_table.status_code == 200: #if resonse is "ok"
-    data_raw = pd.json_normalize(response_Patient_table.json())
-    data_opened = pd.json_normalize(data_raw['patients'].explode())
-    print(type(data_opened))
-else:
-    print(f"Request failed with status code {response_Patient_table.status_code}")
+df = pd.read_excel('test_data_3_variable.xlsx')
 
-# Convert to a DataFrame
-df = pd.DataFrame(data_opened)
+
 print(type(df))
 print(len(df))
-print(df[0:2])
+#print(df[0:1])
 df_copy = df.copy()
 
 
@@ -46,7 +37,7 @@ app.layout = html.Div([
         data=[],  # Initially, the table data is empty
         filter_action="native",
         page_action="native",
-        page_size=50
+        page_size=150
     ),
     dcc.ConfirmDialog(id="confirm",
                       message="Data is saved as CSV",
