@@ -8,7 +8,7 @@ from filteringSystemColumns import columnDefs
 
 response = requests.get("http://0.0.0.0:8888/Patient")
 print(type(response))
-if response.status_code == 200:
+if response.status_code == 200: #if resonse is "ok"
     data_raw = pd.json_normalize(response.json())
     data_opened = pd.json_normalize(data_raw['patients'].explode())
     print(type(data_opened))
@@ -18,6 +18,7 @@ else:
 # Convert to a DataFrame
 df = pd.DataFrame(data_opened)
 print(type(df))
+print(len(df))
 print(df[0:4])
 df_copy = df.copy()
 
@@ -29,13 +30,19 @@ app = Dash(__name__)
 # Define the layout of the app
 app.layout = html.Div([
     html.H1("DASH test app"),
+    html.P("press to load data"),
     html.Button("Load Data", id="load-data", n_clicks=0),
+    html.Button("save data", id="save-data", n_clicks=0),
     html.Button("Reset", id="reset", n_clicks=0),  # Add the reset button
     dash_table.DataTable(
         id="data-table",
         columns=[{"name": i, "id": i} for i in df_copy.columns],
         data=[],  # Initially, the table data is empty
-        filter_action="native"
+        filter_action="native",
+        page_size=50
+    ),
+    dcc.ConfirmDialog(id="confirm",
+                      message="Data is saved as CSV",
     ),
 ])
 
@@ -60,9 +67,24 @@ def update_table(n_load_clicks, n_reset_clicks):
     # If no button has been clicked, return the current data and the current state of the load data button
     return dash.no_update, dash.no_update
 
+# callback for saving data
+@app.callback(
+    [Output("save-data", "n_clicks"), Output("confirm", "displayed")],
+    [Input("save-data", "n_clicks"), Input("data-table", "derived_virtual_data")] #derived_virtual_data property for current table in app
+)
+
+def save_data(n_clicks, table_data): #TODO: what exactly does storing n_clicks do?
+    if n_clicks > 0:
+        #creating a dataframe from the table data in the app
+        df = pd.DataFrame(table_data)
+        #save to a CSV file
+        df.to_csv("table_data.csv", index=False)
+        #return resets clicks and second argument is a popup
+        return 0, True 
+    return 0, False
 
 
 
-# Run the app
+#run the app
 if __name__ == "__main__":
     app.run_server(debug=True)

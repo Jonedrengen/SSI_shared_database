@@ -5,3 +5,5 @@ sqlalchemy
 dash
 dash_ag_grid
 requests
+openpyxl
+httpx

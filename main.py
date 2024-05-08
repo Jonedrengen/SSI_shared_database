@@ -1,12 +1,4 @@
-import uvicorn
-from fastapi import FastAPI
+import requests
 
-test_app = FastAPI()
-
-@test_app.get("/")
-def central():
-    return {"Jon" : "Slotved2"}
-
-if __name__ == "__main__":
-    uvicorn.run(test_app, port=8888, host="0.0.0.0")
-
+response_Patient_table = requests.get("http://0.0.0.0:8888/Patient")
+print(response_Patient_table.json())
