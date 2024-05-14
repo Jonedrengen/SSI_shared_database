@@ -16,11 +16,8 @@ else:
     print(f"Request failed with status code {response_Patient_table.status_code}")
 
 # some useless changing of data
-df = data
-print(type(df))
-print(len(df))
-print(df[0:2])
-df_copy = df.copy()
+
+data_copy = data.copy()
 
 
 # Initialize the Dash app
@@ -36,9 +33,9 @@ app.layout = html.Div([
     html.Button("Reset", id="reset", n_clicks=0),  # Add the reset button
     dcc.Dropdown(
         id="column-dropdown",
-        options=[{'label': i, 'value': i} for i in df_copy.columns],
+        options=[{'label': i, 'value': i} for i in data_copy.columns],
         multi=True,
-        value=df_copy.columns.to_list(), #at first all columns are selected
+        value=data_copy.columns.to_list(), #at first all columns are selected
         style={'display': 'none'}
     ),
     html.Button('Update patient info', id='show-button', n_clicks=0),
@@ -53,7 +50,7 @@ app.layout = html.Div([
     ]),
     dash_table.DataTable(
         id="data-table",
-        columns=[{"name": i, "id": i} for i in df_copy.columns],
+        columns=[{"name": i, "id": i} for i in data_copy.columns],
         data=[],  # Initially, the table data is empty
         filter_action="native",
         page_action="native",
@@ -69,19 +66,19 @@ app.layout = html.Div([
 @app.callback(
     Output("data-table", "data"), 
     Output("load-data", "disabled"),  # Add an output for the disabled property of the load data button
-    [Input("load-data", "n_clicks"), Input("reset", "n_clicks")]  # Add the reset button to the inputs
+    [Input("load-data", "n_clicks"), Input("reset", "n_clicks")]  # add the reset button to the inputs
 )
 def update_table(n_load_clicks, n_reset_clicks):
     ctx = dash.callback_context
 
-    # Check which button was clicked
+    # check which button was clicked
     if ctx.triggered:
         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
         if button_id == "load-data" and n_load_clicks > n_reset_clicks:
-            return df.to_dict("records"), True  # Disable the load data button after loading the data
+            return data_copy.to_dict("records"), True  #disable the load data button after loading the data
         elif button_id == "reset" and n_reset_clicks > 0:
-            return [], False  # Clear the table and enable the load data button when the reset button is clicked
+            return [], False  # clear the table and enable the load data button when the reset button is clicked
 
     # If no button has been clicked, return the current data and the current state of the load data button
     return dash.no_update, dash.no_update
@@ -113,11 +110,11 @@ def toggle_form(n_clicks):
 def save_data(n_clicks, table_data, selected_columns): #TODO: what exactly does storing n_clicks do?
     if n_clicks > 0:
         #creating a dataframe from the table data in the app
-        df = pd.DataFrame(table_data)
+        data_copy = pd.DataFrame(table_data)
         #filter for selected columns
-        df = df[selected_columns]
+        data_copy = data_copy[selected_columns]
         #save to a CSV file
-        df.to_csv("table_data.csv", index=False)
+        data_copy.to_csv("table_data.csv", index=False)
         #return resets clicks and second argument is a popup
         return 0, True 
     return 0, False
