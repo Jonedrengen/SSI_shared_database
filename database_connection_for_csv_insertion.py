@@ -10,8 +10,8 @@ def connect_to_db():
     database = 'SharedDatabase'
     username = 'sa'
     password = 'BlueBox21'
-    driver = '{ODBC Driver 17 for SQL Server}'
-    conn_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+    driver = '{ODBC Driver 18 for SQL Server}'
+    conn_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};TrustServerCertificate=yes'
 
     # Connect to the database
     try:

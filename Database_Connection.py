@@ -1,25 +1,30 @@
 import pyodbc
 import csv
+from sqlalchemy import create_engine
+
+# THIS WAY OF USING CONNECTION STRING ONLY WORKS WHEN USING APIS, SO CHANGE TO THE CONNECTION STRING IN database_connection_for_csv_insertion.py
+# WHEN YOU WANT TO 
 
 # get db connection string
 def get_db_connection_string():
-    # Set up the connection string
     server = 'localhost'
     database = 'SharedDatabase'
     username = 'sa'
     password = 'BlueBox21'
-    conn_str = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=ODBC+Driver+17+for+SQL+Server'
+    driver = 'ODBC Driver 18 for SQL Server'
+    conn_str = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}&TrustServerCertificate=yes'
     return conn_str
 
 #connect to the db
 def connect_to_database():
     conn_str = get_db_connection_string()
     try:
-        conn = pyodbc.connect(conn_str)
-
-    except pyodbc.Error as e:
+        engine = create_engine(conn_str)
+        conn = engine.connect()
+        print("Connection successful")
+    except Exception as e:
+        print(f"Failed to connect to the database: {e}")
         conn = None
-    print(conn)
     return conn
 
 #execute a query

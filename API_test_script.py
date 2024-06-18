@@ -32,4 +32,4 @@ def test_put_request():
     else:
         print(f"Request failed with status code {response.status_code}")
 
-test_put_request()
+test_get_request()
