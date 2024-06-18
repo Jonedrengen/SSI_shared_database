@@ -7,7 +7,7 @@ import requests
 from filteringSystemColumns import columnDefs
 from Pydantic_models import PatientUpdate
 
-df = pd.read_excel('DanmarksStatistik_dødsårsager.xlsx')
+df = pd.read_csv('Patient_test_data.csv')
 
 data_copy = df.copy()
 
