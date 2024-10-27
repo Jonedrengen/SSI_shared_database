@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output
 import pandas as pd
 from filteringSystemColumns import columnDefs
 
-df = pd.read_excel('test_data_fis.xlsx')
+df = pd.read_excel('test_data_3_variable.xlsx')
 
 
 print(type(df))

@@ -21,9 +21,9 @@ def connect_to_database():
     try:
         engine = create_engine(conn_str)
         conn = engine.connect()
-        print("Connection successful")
+        print("connection god")
     except Exception as e:
-        print(f"Failed to connect to the database: {e}")
+        print(f"fail: {e}")
         conn = None
     return conn
 
