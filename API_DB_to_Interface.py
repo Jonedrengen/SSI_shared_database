@@ -34,7 +34,7 @@ def update_patient(patient_id: str, patient_update: PatientUpdate = Body(...)):
         with Session(engine) as session:
             patient = session.query(Patient).filter(Patient.identifier == patient_id).first()
             if not patient:
-                raise HTTPException(status_code=404, detail="Patient not found")
+                raise HTTPException(status_code=404, detail="kan ik finde patienten")
             
             for key, value in patient_update.model_dump().items():
                 setattr(patient, key, value)
